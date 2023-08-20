@@ -7,11 +7,7 @@ describe Shyftplan do
 
   describe "#get" do
     it "performs a GET API request" do
-      evaluation_items = [
-        {
-          "id" => 1
-        }
-      ]
+      evaluation_items = [(FactoryBot.build :evaluation_item)]
       stub_request(
         :get,
         "https://shyftplan.com/api/v1/evaluations"
@@ -42,8 +38,8 @@ describe Shyftplan do
           }
         ).to_return(
           status: 401,
-          body: { "error" => "401 Unauthorized" }.to_json,
-          headers: { "Content-Type" => "application/json" }
+          headers: { "Content-Type" => "application/json" },
+          body: { "error" => "401 Unauthorized" }.to_json
         )
         begin
           response = shyftplan.get("/evaluations")
@@ -53,6 +49,53 @@ describe Shyftplan do
           expect(response.success?).to eq(false)
           expect(response["error"]).to eq("401 Unauthorized")
         end
+      end
+    end
+  end
+
+  describe "#each_page" do
+    let(:pages) do
+      2.times.map do |page_number|
+        {
+          "items" => [(FactoryBot.build :evaluation_item)],
+          "total" => 2
+        }
+      end
+    end
+    let(:all_items) { pages.inject([]) { |all_items, page| all_items + page["items"] } }
+
+    before(:each) do
+      2.times.each do |page_number|
+        response_hash = pages[page_number]
+        stub_request(
+          :get,
+          "https://shyftplan.com/api/v1/evaluations"
+        ).with(
+          query: {
+            user_email:,
+            authentication_token:,
+            page: page_number + 1
+          }
+        ).to_return(
+          status: 200,
+          headers: { "Content-Type" => "application/json" },
+          body: response_hash.to_json
+        )
+      end
+    end
+
+    it "retrieves items across all pages" do
+      expect(shyftplan.each_page("/evaluations")).to eq(all_items)
+    end
+
+    context "given a block" do
+      it "yields each page to the given block" do
+        actual = []
+        shyftplan.each_page("/evaluations") do |page|
+          actual = actual + page["items"]
+        end
+        expected = all_items
+        expect(actual).to eq(expected)
       end
     end
   end

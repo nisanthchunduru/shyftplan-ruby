@@ -42,22 +42,20 @@ class Shyftplan
   # @example Perform an action after each page retrieval
   #   Shyftplan.each_page("/shifts") { |page| puts "Page retrieved..." }
   def each_page(path, options = {})
-    per_page = 100
     page = 1
     items = []
     loop do
       options[:query] = if options[:query]
-        options[:query].merge(page:, per_page:)
+        options[:query].merge(page:)
       else
         {
           page:,
-          per_page:
         }
       end
       response = get(path, options)
-      yield response
+      yield response if block_given?
       page = page + 1
-      items << response["items"]
+      items = items + response["items"]
       break if items.size >= response["total"]
     end
 
