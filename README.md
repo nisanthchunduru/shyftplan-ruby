@@ -1,6 +1,6 @@
 # shyftplan-ruby
 
-Ruby gem for Shyftplan's REST API
+Ruby gem for Shyftplan's REST API https://github.com/shyftplan/api-documentation
 
 ## Installation
 
