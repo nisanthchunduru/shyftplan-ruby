@@ -28,11 +28,12 @@ class Shyftplan
     response
   end
 
+  # @todo Add rspecs
   def post(path, options = {})
     url = base_url + path
-    query = authentication_params
-    query.merge!(options[:query]) if options[:query]
-    HTTParty.post(url, query: query)
+    query = options.fetch(:query, {})
+    query.merge!(authentication_params)
+    HTTParty.post(url, options.merge(query:))
   end
 
   # Retrieve items across all pages
