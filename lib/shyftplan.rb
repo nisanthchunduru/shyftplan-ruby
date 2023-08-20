@@ -1,4 +1,5 @@
 require "httparty"
+require_relative "./shyftplan/errors"
 
 class Shyftplan
   attr_reader :site,
@@ -22,7 +23,9 @@ class Shyftplan
     url = base_url + path
     query = authentication_params
     query.merge!(options[:query]) if options[:query]
-    HTTParty.get(url, query: query)
+    response = HTTParty.get(url, query: query)
+    raise Shyftplan::Errors::UnsuccessfulResponse.new(response) unless response.success?
+    response
   end
 
   def post(path, options = {})
