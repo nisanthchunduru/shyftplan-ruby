@@ -34,8 +34,11 @@ class Shyftplan
 
   # Retrieve items across all pages
   # @example
-  #   Shyftplan.get_all_items("/shifts")
-  def get_all_items(path, options = {})
+  #   Shyftplan.each_page("/shifts")
+  #
+  # @example Perform an action after each page retrieval
+  #   Shyftplan.each_page("/shifts") { |page| puts "Page retrieved..." }
+  def each_page(path, options = {})
     per_page = 100
     page = 1
     items = []
@@ -49,12 +52,13 @@ class Shyftplan
         }
       end
       response = get(path, options)
-      items << response["items"]
+      yield response
       page = page + 1
+      items << response["items"]
       break if items.size >= response["total"]
     end
 
-    return items
+    items
   end
 
   private

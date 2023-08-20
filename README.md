@@ -18,8 +18,32 @@ bundle install
 
 ## Usage
 
-```ruby
+Initialize the Shyftplan client
+
+```
 shyftplan = Shyftplan.new("john@acme.com", "dummy_api_token")
-response = shyftplan.get("/shifts")
-shifts = response["items"]
+```
+
+Retrieve evaluations
+
+```ruby
+response = shyftplan.get("/evaluations")
+evaluations = response["items"]
+```
+
+Retrieve evaluations across all pages
+
+```ruby
+evaluations = shyftplan.each_page("/evaluations")
+```
+
+Doing the above may take a while. If you'd like to perform any action after each page retrieval, provide a block
+
+```ruby
+shyftplan.each_page("/evaluations") do |page|
+  puts "Page retrieved..."
+
+  evaluations = page["items"]
+  EvaluationsCSVExport.add(evaluations)
+end
 ```
