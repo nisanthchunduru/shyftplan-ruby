@@ -20,7 +20,7 @@ bundle install
 
 Initialize the Shyftplan client
 
-```
+```ruby
 shyftplan = Shyftplan.new("john@acme.com", "dummy_api_token")
 ```
 
@@ -47,3 +47,7 @@ shyftplan.each_page("/evaluations") do |page|
   EvaluationsCSVExport.add(evaluations)
 end
 ```
+
+## Todos
+
+- Publish gem to https://rubygems.org
