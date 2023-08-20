@@ -33,7 +33,9 @@ class Shyftplan
     url = base_url + path
     query = options.fetch(:query, {})
     query.merge!(authentication_params)
-    HTTParty.post(url, options.merge(query:))
+    response = HTTParty.post(url, options.merge(query:))
+    raise Shyftplan::Errors::UnsuccessfulResponse.new(response) unless response.success?
+    response
   end
 
   # Retrieve items across all pages
