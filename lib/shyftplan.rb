@@ -19,23 +19,10 @@ class Shyftplan
     site + "/api/v1"
   end
 
-  def get(path, options = {})
-    url = base_url + path
-    query = authentication_params
-    query.merge!(options[:query]) if options[:query]
-    response = HTTParty.get(url, query: query)
-    raise Shyftplan::Errors::UnsuccessfulResponse.new(response) unless response.success?
-    response
-  end
-
-  # @todo Add rspecs
-  def post(path, options = {})
-    url = base_url + path
-    query = options.fetch(:query, {})
-    query.merge!(authentication_params)
-    response = HTTParty.post(url, options.merge(query:))
-    raise Shyftplan::Errors::UnsuccessfulResponse.new(response) unless response.success?
-    response
+  [:get, :post, :put, :delete].each do |http_method|
+    define_method(http_method) do |*args|
+      request(http_method, *args)
+    end
   end
 
   # Retrieve items across all pages
@@ -66,6 +53,15 @@ class Shyftplan
   end
 
   private
+
+  def request(http_method, path, options = {})
+    url = base_url + path
+    query = authentication_params
+    query.merge!(options[:query]) if options[:query]
+    response = HTTParty.public_send(http_method, url, options.merge(query:))
+    raise Shyftplan::Errors::UnsuccessfulResponse.new(response) unless response.success?
+    response
+  end
 
   def authentication_params
     {
