@@ -2,6 +2,8 @@
 
 Ruby gem for Shyftplan's REST API https://github.com/shyftplan/api-documentation
 
+Try the gem on repl.it https://replit.com/@nisanth074/tryshyftplanruby#main.rb
+
 ## Installation
 
 Add the gem to your Rails app's Gemfile
