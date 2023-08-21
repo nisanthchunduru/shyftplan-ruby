@@ -99,4 +99,36 @@ describe Shyftplan do
       end
     end
   end
+
+  describe "#post" do
+    it "performs a POST API request" do
+      shiftplan_params = {
+        "location_id" => 1,
+        "name" => "Aug 2023",
+        "starts_at" => "2023-08-01",
+        "ends_at" => "2023-08-30"
+      }
+      stub_request(
+        :post,
+        "https://shyftplan.com/api/v1/shiftplans"
+      ).with(
+        query: {
+          user_email:,
+          authentication_token:
+        },
+        body: shiftplan_params.to_json,
+        headers: {
+          "Content-Type" => "application/json",
+          "Accept" => "application/json"
+        }
+      ).to_return(
+        status: 201,
+        headers: { "Content-Type" => "application/json" },
+        body: { "id" => 1 }.to_json
+      )
+      response = shyftplan.post("/shiftplans", body: shiftplan_params)
+      expect(response.code).to eq(201)
+      expect(response["id"]).to eq(1)
+    end
+  end
 end

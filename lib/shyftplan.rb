@@ -56,11 +56,26 @@ class Shyftplan
 
   def request(http_method, path, options = {})
     url = base_url + path
-    query = authentication_params
-    query.merge!(options[:query]) if options[:query]
-    response = HTTParty.public_send(http_method, url, options.merge(query:))
+    httparty_options = default_httparty_options
+    httparty_options[:query].merge!(options[:query]) if options[:query]
+    if options[:body]
+      httparty_options[:body] = if options[:body].is_a?(String)
+        options[:body]
+      else
+        options[:body].to_json
+      end
+      httparty_options[:headers]["Content-Type"] = "application/json"
+    end
+    response = HTTParty.public_send(http_method, url, httparty_options)
     raise Shyftplan::Errors::UnsuccessfulResponse.new(response) unless response.success?
     response
+  end
+
+  def default_httparty_options
+    {
+      headers: default_headers,
+      query: authentication_params
+    }
   end
 
   def authentication_params
@@ -68,5 +83,9 @@ class Shyftplan
       user_email:,
       authentication_token:
     }
+  end
+
+  def default_headers
+    { "Accept" => "application/json" }
   end
 end
