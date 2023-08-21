@@ -1,4 +1,5 @@
 require "httparty"
+require_relative "./shyftplan/version"
 require_relative "./shyftplan/errors"
 
 class Shyftplan
