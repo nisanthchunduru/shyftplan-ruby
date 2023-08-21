@@ -2,11 +2,17 @@
 
 Ruby gem for Shyftplan's REST API https://github.com/shyftplan/api-documentation
 
-Try the gem on repl.it https://replit.com/@nisanth074/tryshyftplanruby#main.rb
+Try the gem on repl.it https://replit.com/@nisanth074/tryshyftplanruby#main.rb If you run into a problem or have ideas for improvement, do open a GitHub issue or PR
 
 ## Installation
 
 Add the gem to your Rails app's Gemfile
+
+```
+gem "shyftplan"
+```
+
+or
 
 ```ruby
 gem "shyftplan", git: "https://github.com/nisanth074/shyftplan-ruby", branch: "main"
@@ -49,7 +55,3 @@ shyftplan.each_page("/evaluations") do |page|
   EvaluationsCSVExport.add(evaluations)
 end
 ```
-
-## Todos
-
-- Publish gem to https://rubygems.org
