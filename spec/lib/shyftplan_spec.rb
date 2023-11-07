@@ -21,7 +21,7 @@ describe Shyftplan do
         body: { "items" => evaluation_items, "total": 1 }.to_json,
         headers: { "Content-Type" => "application/json" }
       )
-      response = shyftplan.get("/evaluations")
+      response = shyftplan.get("/api/v1/evaluations")
       expect(response["items"]).to eq(evaluation_items)
       expect(response["total"]).to eq(1)
     end
@@ -42,7 +42,7 @@ describe Shyftplan do
           body: { "error" => "401 Unauthorized" }.to_json
         )
         begin
-          response = shyftplan.get("/evaluations")
+          response = shyftplan.get("/api/v1/evaluations")
           expect(false).to eq(true)
         rescue Shyftplan::Errors::UnsuccessfulResponse => e
           response = e.response
@@ -85,13 +85,13 @@ describe Shyftplan do
     end
 
     it "retrieves items across all pages" do
-      expect(shyftplan.each_page("/evaluations")).to eq(all_items)
+      expect(shyftplan.each_page("/api/v1/evaluations")).to eq(all_items)
     end
 
     context "given a block" do
       it "yields each page to the given block" do
         actual = []
-        shyftplan.each_page("/evaluations") do |page|
+        shyftplan.each_page("/api/v1/evaluations") do |page|
           actual = actual + page["items"]
         end
         expected = all_items
@@ -126,7 +126,7 @@ describe Shyftplan do
         headers: { "Content-Type" => "application/json" },
         body: { "id" => 1 }.to_json
       )
-      response = shyftplan.post("/shiftplans", body: shiftplan_params)
+      response = shyftplan.post("/api/v1/shiftplans", body: shiftplan_params)
       expect(response.code).to eq(201)
       expect(response["id"]).to eq(1)
     end

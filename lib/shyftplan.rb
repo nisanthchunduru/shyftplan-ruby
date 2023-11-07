@@ -3,21 +3,17 @@ require_relative "./shyftplan/version"
 require_relative "./shyftplan/errors"
 
 class Shyftplan
-  attr_reader :site,
+  attr_reader :base_url,
               :user_email,
               :authentication_token
 
   def initialize(*args)
     if args.size == 3
-      @site, @user_email, @authentication_token = args
+      @base_url, @user_email, @authentication_token = args
     else
-      @site = "https://shyftplan.com"
+      @base_url = "https://shyftplan.com"
       @user_email, @authentication_token = args
     end
-  end
-
-  def base_url
-    site + "/api/v1"
   end
 
   [:get, :post, :put, :delete].each do |http_method|
