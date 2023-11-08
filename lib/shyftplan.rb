@@ -1,6 +1,7 @@
 require "httparty"
 require_relative "./shyftplan/version"
 require_relative "./shyftplan/errors"
+require_relative "./shyftplan/graphql"
 
 class Shyftplan
   attr_reader :base_url,
@@ -49,6 +50,10 @@ class Shyftplan
     items
   end
 
+  def graphql(base_url = self.base_url)
+    Graphql.new(base_url, user_email, authentication_token)
+  end
+
   private
 
   def request(http_method, path, options = {})
@@ -71,11 +76,11 @@ class Shyftplan
   def default_httparty_options
     {
       headers: default_headers,
-      query: authentication_params
+      query: auth_params
     }
   end
 
-  def authentication_params
+  def auth_params
     {
       user_email:,
       authentication_token:
