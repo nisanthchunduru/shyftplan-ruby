@@ -8,20 +8,29 @@ Try the gem on repl.it https://replit.com/@nisanth074/tryshyftplanruby#main.rb I
 
 Add the gem to your Rails app's Gemfile
 
-```
-gem "shyftplan"
-```
-
-or
-
 ```ruby
-gem "shyftplan", git: "https://github.com/nisanth074/shyftplan-ruby", branch: "main"
+gem "shyftplan", git: "https://github.com/nisanthchunduru/shyftplan-ruby", branch: "main"
 ```
 
 and bundle install
 
+Alternatively, if you're say, writing a script and don't have a Gemfile or have bundler installed, clone the repo and add the lib/ directory to Ruby's load path
+
 ```bash
-bundle install
+mkdir ~/repos/
+git clone https://github.com/nisanthchunduru/shyftplan-ruby ~/repos/shyftplan-ruby
+```
+
+and add the lib/ directory to Ruby's load path
+
+```ruby
+$LOAD_PATH << "/Users/nisanth/repos/shyftplan-ruby/lib"
+
+require "shyftplan"
+
+shyftplan = Shyftplan.new("john@acme.com", "dummy_api_token")
+
+# ...
 ```
 
 ## Usage
