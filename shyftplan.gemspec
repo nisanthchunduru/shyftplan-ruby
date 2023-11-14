@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors       = ["Nisanth Chunduru"]
   s.email         = ["nisanth074@gmail.com"]
   s.homepage      = "https://github.com/nisanthchunduru/shyftplan-ruby"
-  s.summary       = "Ruby gem for Shyftplan's REST API"
-  s.description   = "Ruby gem for Shyftplan's REST API"
+  s.summary       = "Ruby gem for Shyftplan's REST & GraphQL APIs"
+  s.description   = "Ruby gem for Shyftplan's REST & GraphQL APIs"
 
   s.files = Dir["{lib}/**/*", "README.md"]
 

@@ -1,6 +1,6 @@
 # shyftplan-ruby
 
-Ruby gem for Shyftplan's REST API https://github.com/shyftplan/api-documentation
+Ruby gem for Shyftplan's REST & GraphQL APIs https://github.com/shyftplan/api-documentation
 
 Try the gem on repl.it https://replit.com/@nisanth074/tryshyftplanruby#main.rb If you run into a problem or have ideas for improvement, do open a GitHub issue or PR
 
