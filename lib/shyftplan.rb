@@ -50,8 +50,14 @@ class Shyftplan
     items
   end
 
-  def graphql(base_url = self.base_url)
-    Graphql.new(base_url, user_email, authentication_token)
+  def graphql_query(*args)
+    graphql.query(*args)
+  end
+
+  # @example
+  #   shyftplan.with_base_url("https://pr-8912.shyftplan-beta.com").get("/shifts")
+  def with_base_url(new_base_url)
+    new(new_base_url, user_email, authentication_token)
   end
 
   private
@@ -89,5 +95,9 @@ class Shyftplan
 
   def default_headers
     { "Accept" => "application/json" }
+  end
+
+  def graphql(base_url = self.base_url)
+    Graphql.new(base_url, user_email, authentication_token)
   end
 end

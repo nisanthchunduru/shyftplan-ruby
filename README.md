@@ -87,7 +87,6 @@ shyftplan.post("/api/v1/evaluations/#{staff_shift_id}", body: evaluation_params)
 Perform a GraphQL query
 
 ```ruby
-graphql = shyftplan.GraphQL
 query = <<-QUERY
 query FetchStaffShifts($shiftplanIds: [Int!] = null) {
   staffShifts(shiftplanIds: $shiftplanIds) {
@@ -101,6 +100,6 @@ query FetchStaffShifts($shiftplanIds: [Int!] = null) {
   }
 }
 QUERY
-response = graphql.query("FetchStaffShifts", query, "shiftplan_ids" => [8])
+response = shyftplan.graphql_query("FetchStaffShifts", query, "shiftplan_ids" => [8])
 staff_shifts = response["data"]["staffShifts"]["items"]
 ```
