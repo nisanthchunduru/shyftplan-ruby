@@ -14,6 +14,9 @@ gem "shyftplan", git: "https://github.com/nisanthchunduru/shyftplan-ruby", branc
 
 and bundle install
 
+
+### Alternate installation
+
 Alternatively, if you're say, writing a script and don't have a Gemfile or have bundler installed, clone the repo and add the lib/ directory to Ruby's load path
 
 ```bash
@@ -79,7 +82,7 @@ evaluation_params = {
 shyftplan.post("/api/v1/evaluations/#{staff_shift_id}", body: evaluation_params)
 ```
 
-### GraphQL
+### GraphQL Usage
 
 Perform a GraphQL query
 
