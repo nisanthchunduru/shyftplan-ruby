@@ -55,3 +55,24 @@ shyftplan.each_page("/evaluations") do |page|
   EvaluationsCSVExport.add(evaluations)
 end
 ```
+
+Perform a GraphQL query
+
+```ruby
+graphql = shyftplan.GraphQL
+query = <<-QUERY
+query FetchStaffShifts($shiftplanIds: [Int!] = null) {
+  staffShifts(shiftplanIds: $shiftplanIds) {
+    items {
+      id
+      shift {
+        startsAt
+        endsAt
+      }
+    }
+  }
+}
+QUERY
+response = graphql.query("FetchStaffShifts", query, "shiftplan_ids" => [8])
+staff_shifts = response["data"]["staffShifts"]["items"]
+```
