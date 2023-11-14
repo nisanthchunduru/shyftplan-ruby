@@ -54,7 +54,7 @@ Retrieve evaluations across all pages
 evaluations = shyftplan.each_page("/evaluations")
 ```
 
-Doing the above may take a while. If you'd like to perform any action after each page retrieval, provide a block
+If you've many evaluations in your Shyftplan account, retrieving all pages can take a while. If you'd like to perform an action after each page retrieval, you can provide a block
 
 ```ruby
 shyftplan.each_page("/evaluations") do |page|
@@ -64,6 +64,22 @@ shyftplan.each_page("/evaluations") do |page|
   EvaluationsCSVExport.add(evaluations)
 end
 ```
+
+Create an evaluation
+
+```ruby
+staff_shift_id = 1
+evaluation_starts_at = "2023-07-01T09:00:00+02:00"
+evaluation_ends_at = "2023-07-01T17:00:00+02:00"
+evaluation_params = {
+  "evaluation_starts_at" => evaluation_starts_at,
+  "evaluation_ends_at" => evaluation_ends_at,
+  "untimed_breaks" => 0
+}
+shyftplan.post("/api/v1/evaluations/#{staff_shift_id}", body: evaluation_params)
+```
+
+### GraphQL
 
 Perform a GraphQL query
 
